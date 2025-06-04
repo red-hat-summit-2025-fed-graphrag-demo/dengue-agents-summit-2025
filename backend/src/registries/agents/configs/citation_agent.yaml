@@ -1,0 +1,43 @@
+id: "citation_agent"
+name: "Citation Agent"
+description: "Handles citation retrieval and formatting for the RAG system"
+version: "1.0.0"
+enabled: true
+agent_type: "rag"
+capabilities:
+  - "retrieve_citations"
+  - "format_citations"
+  - "validate_sources"
+
+model_config:
+  provider: "granite"
+  model_type: "instruct"
+  model_name: "granite-3-1-8b-instruct-w4a16"
+  max_tokens: 1500
+  temperature: 0.1
+
+tools:
+  - id: "cypher_tool"
+    parameters:
+      include_citations: true
+
+prompts:
+  retrieval:
+    id: "citation.retrieval"
+    description: "Prompt for retrieving relevant citations"
+  formatting:
+    id: "citation.formatting" 
+    description: "Prompt for formatting citations in responses"
+
+workflow:
+  input: "query"
+  steps:
+    - name: "retrieve_citations"
+      prompt_id: "citation.retrieval"
+      tool_id: "cypher_tool"
+      output: "citations"
+    - name: "format_citations"
+      prompt_id: "citation.formatting"
+      input: "citations"
+      output: "formatted_citations"
+  output: "formatted_citations"

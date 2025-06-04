@@ -1,0 +1,12 @@
+# Configuration for the Dengue Data Visualization Agent
+agent_id: "dengue_data_visualization_agent"
+module_path: "src.agent_system.rag_system.enhancement.dengue_data_visualization_agent"
+class_name: "DengueDataVisualizationAgent"
+active: true
+description: "Specialized agent for retrieving and visualizing dengue prediction data"
+model_config:
+  model_type: "instruct"
+  max_tokens: 1024
+  temperature: 0.2
+prompt_id: "enhancement.dengue_data_visualization"
+dengue_api_url: "https://dengue-prediction-service-model-service-dengue.apps.cluster-8gvkk.8gvkk.sandbox888.opentlc.com"

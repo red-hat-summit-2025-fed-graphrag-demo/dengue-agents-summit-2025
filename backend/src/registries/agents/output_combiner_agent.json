@@ -1,0 +1,12 @@
+{
+  "id": "output_combiner_agent",
+  "name": "Output Combiner Agent",
+  "description": "Agent to combine outputs from visualization and response agents",
+  "type": "rag",
+  "class": "src.agent_system.rag_system.output_combiner_agent.OutputCombinerAgent",
+  "model_config": {
+    "model_type": "instruct",
+    "max_tokens": 256,
+    "temperature": 0.1
+  }
+}

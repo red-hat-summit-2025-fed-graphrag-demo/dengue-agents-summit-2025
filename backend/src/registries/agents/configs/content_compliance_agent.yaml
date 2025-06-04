@@ -1,0 +1,27 @@
+id: "content_compliance_agent"
+name: "Content Compliance Agent"
+description: "Safety agent for ensuring final content complies with safety standards"
+version: "1.0.0"
+enabled: true
+agent_type: "safety"
+capabilities: 
+  - "safety"
+  - "compliance"
+  - "remediation"
+
+model_config:
+  provider: "granite"
+  model_type: "guardian"
+  model_name: "granite3-guardian-2b"
+  max_tokens: 1024
+  temperature: 0.2
+
+tools: []
+
+prompts:
+  system:
+    id: "safety.content_compliance_system"
+    description: "Primary prompt for content compliance checking"
+  remediation:
+    id: "safety.content_remediation"
+    description: "Prompt for remediating unsafe content"

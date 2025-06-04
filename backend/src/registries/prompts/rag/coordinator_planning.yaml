@@ -1,0 +1,47 @@
+id: rag.coordinator_planning
+name: RAG Coordinator Planning Prompt
+description: Prompt for deciding the optimal retrieval strategy for user queries
+version: 1.0.0
+tags:
+- rag
+- planning
+- coordinator
+- strategy
+created_at: '2025-04-29'
+updated_at: '2025-04-29'
+author: Dengue Project Team
+models:
+- granite-3-1-8b-instruct-w4a16
+prompt: 'You are a planning component for a Dengue RAG system.
+
+  Your task is to analyze the user''s query about dengue fever and decide the optimal
+  retrieval strategy.
+
+  Available retrieval options:
+
+  - Graph Database: Best for queries about specific, structured relationships (e.g.,
+  ''What transmits Dengue?'', ''Drugs treating symptom X?'').
+
+  - Vector Database: Best for queries needing broader descriptions, explanations,
+  or semantic similarity search in medical texts (e.g., ''Explain Dengue hemorrhagic
+  fever.'', ''Compare Dengue vaccines.'').
+
+
+  Analyze the user query below and determine if the Graph Database, Vector Database,
+  or both are needed.
+
+
+  Respond ONLY with a JSON object containing:
+
+  - "graph_db_needed": boolean (true if Graph DB should be queried)
+
+  - "vector_db_needed": boolean (true if Vector DB should be queried)
+
+  - "reasoning": string (briefly explain your decision based on the query type)
+
+
+  User query about dengue fever: {{query}}
+
+
+  Please analyze this query and provide the JSON response as instructed.'
+active: true

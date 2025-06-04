@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "active": true,
+      "author": "Test Author",
+      "created_at": "2025-05-14",
+      "description": "Test prompt description",
+      "id": "test.prompt",
+      "models": [
+        "test-model"
+      ],
+      "name": "Test Prompt",
+      "prompt": "This is a test prompt template with {{variable}}.",
+      "tags": [
+        "test",
+        "prompt"
+      ],
+      "updated_at": "2025-05-14",
+      "version": "1.0.0"
+    },
+    {
+      "name": "New Prompt",
+      "description": "New prompt description",
+      "version": "1.0.0",
+      "tags": [
+        "new",
+        "prompt"
+      ],
+      "created_at": "2025-05-14",
+      "updated_at": "2025-05-14",
+      "author": "Test Author",
+      "active": true,
+      "models": [
+        "test-model"
+      ],
+      "id": "new.prompt",
+      "prompt": "This is a new prompt template."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "template_id": "symptom_overview",
+  "name": "Dengue Symptoms Overview",
+  "description": "Template for queries about dengue symptoms and how to recognize the disease",
+  "query_type": "symptom",
+  "applicable_markers": ["[SYMPTOM_QUERY]", "[VISUALIZATION_READY]"],
+  "query_patterns": ["what are symptoms", "symptoms of dengue", "how to recognize", "signs of dengue"],
+  "required_data_fields": [],
+  "required_data_keys": ["retrieved_symptoms"],
+  "template_markers": ["[USE_SYMPTOM_TEMPLATE]"],
+  "template_content": "# Dengue Symptoms Overview\n\nBased on the available information, here is an overview of dengue symptoms:\n\n## Common Symptoms\n{% for symptom in retrieved_symptoms if symptom.severity == 'common' %}\n- **{{ symptom.name }}**: {{ symptom.description }}\n{% else %}\n- No specific common symptoms data found.\n{% endfor %}\n\n## Severe Symptoms (Warning Signs)\nSeek immediate medical attention if you experience any of the following:\n{% for symptom in retrieved_symptoms if symptom.severity == 'severe' %}\n- **{{ symptom.name }}**: {{ symptom.description }}\n{% else %}\n- No specific severe symptoms data found.\n{% endfor %}\n\n*Disclaimer: This information does not replace professional medical advice. Consult a healthcare provider for diagnosis.*\n\n{% if retrieved_citations %}\n### Sources\n{% for citation in retrieved_citations %}\n- [{{ citation.title }}]({{ citation.url }}) ({{ citation.source_name }})\n{% endfor %}\n{% endif %}",
+  "fallback_guidelines": "If knowledge graph lookup fails, provide a comprehensive list of dengue symptoms, organized by frequency and severity. Include warning signs that require medical attention."
+}

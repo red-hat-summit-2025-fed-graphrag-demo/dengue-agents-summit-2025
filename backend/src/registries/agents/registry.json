@@ -1,0 +1,496 @@
+{
+  "agents": [
+    {
+      "id": "simple_test_agent",
+      "name": "Simple Test Agent",
+      "description": "A minimal agent for testing the agent system architecture",
+      "version": "1.0.0",
+      "tags": ["test", "example", "minimal"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.assistants.simple_test_agent",
+      "class_name": "SimpleTestAgent",
+      "config_path": "configs/simple_test_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.7,
+        "top_p": 0.95
+      },
+      "prompt_id": "test.simple_test",
+      "tools": []
+    },
+    {
+      "id": "code_assistant",
+      "name": "Code Assistant",
+      "description": "Specialized agent for programming assistance and technical queries",
+      "version": "1.0.0",
+      "tags": ["code", "programming", "assistant"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.assistants.code_assistant",
+      "class_name": "CodeAssistant",
+      "config_path": "configs/code_assistant.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 2048,
+        "temperature": 0.5,
+        "top_p": 0.95
+      },
+      "prompt_id": "assistants.code_assistant",
+      "tools": []
+    },
+    {
+      "id": "injection_check_agent",
+      "name": "Injection Check Agent",
+      "description": "Safety agent for detecting prompt injection attempts",
+      "version": "1.0.0",
+      "tags": ["safety", "security", "injection"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.safety.injection_check_agent",
+      "class_name": "InjectionCheckAgent",
+      "config_path": "configs/injection_check_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 512,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "safety.injection_check",
+      "tools": []
+    },
+    {
+      "id": "policy_check_agent",
+      "name": "Policy Check Agent",
+      "description": "Safety agent for enforcing content policy compliance",
+      "version": "1.0.0",
+      "tags": ["safety", "policy", "compliance"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.safety.policy_check_agent",
+      "class_name": "PolicyCheckAgent",
+      "config_path": "configs/policy_check_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 512,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "safety.policy_check",
+      "tools": []
+    },
+    {
+      "id": "content_compliance_agent",
+      "name": "Content Compliance Agent",
+      "description": "Safety agent for ensuring final content complies with safety standards",
+      "version": "1.0.0",
+      "tags": ["safety", "compliance", "output"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.safety.content_compliance_agent",
+      "class_name": "ContentComplianceAgent",
+      "config_path": "configs/content_compliance_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "safety.content_compliance",
+      "tools": []
+    },
+    {
+      "id": "rag_query_writer_agent",
+      "name": "Query Writer Agent",
+      "description": "Specialized agent for transforming natural language queries into structured database queries",
+      "version": "1.0.0",
+      "tags": ["rag", "query", "transformation"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.query.query_writer_agent",
+      "class_name": "QueryWriterAgent",
+      "config_path": "configs/rag_query_writer_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.5,
+        "top_p": 0.95
+      },
+      "prompt_id": "rag.query_writer",
+      "tools": ["schema_tool", "sample_jinja_tool"]
+    },
+    {
+      "id": "graph_query_generator_agent",
+      "name": "Graph Query Generator Agent",
+      "description": "Specialized agent for generating Cypher queries for graph databases",
+      "version": "1.0.0",
+      "tags": ["cypher", "graph", "query", "neo4j"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.query.query_writer_agent",
+      "class_name": "QueryWriterAgent",
+      "config_path": "configs/graph_query_generator_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3
+      },
+      "prompt_id": "rag.graph_query_generator",
+      "tools": [
+        "schema_tool"
+      ]
+    },
+    {
+      "id": "graph_query_executor_agent",
+      "name": "Graph Query Executor Agent",
+      "description": "Specialized agent for executing Cypher queries against a graph database",
+      "version": "1.0.0",
+      "tags": ["graph", "executor", "cypher", "neo4j"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.retrieval.graph_query_executor_agent",
+      "class_name": "GraphQueryExecutorAgent",
+      "config_path": "configs/graph_query_executor_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.2,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.graph_query_executor",
+      "tools": ["cypher_tool"]
+    },
+    {
+      "id": "graph_result_assessor_agent",
+      "name": "Graph Result Assessor Agent",
+      "description": "Specialized agent for analyzing and assessing the results of graph queries",
+      "version": "1.0.0",
+      "tags": ["graph", "assessment", "analysis", "results"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.synthesis.graph_result_assessor_agent",
+      "class_name": "GraphResultAssessorAgent",
+      "config_path": "configs/graph_result_assessor_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.4,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.graph_result_assessor",
+      "tools": []
+    },
+    {
+      "id": "hybrid_query_writer_agent",
+      "name": "Hybrid Query Writer Agent",
+      "description": "Enhanced agent for generating graph queries using both rule-based and AI-based approaches",
+      "version": "1.0.0",
+      "tags": ["hybrid", "query", "graph", "rule-based"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.query.hybrid_query_writer_agent",
+      "class_name": "HybridQueryWriterAgent",
+      "config_path": "configs/hybrid_query_writer_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.hybrid_query_writer",
+      "tools": [
+        "schema_tool"
+      ]
+    },
+    {
+      "id": "simple_query_writer_agent",
+      "name": "Simple Query Writer Agent",
+      "description": "Prescriptive pattern-based query generator that only uses verified data relationships",
+      "version": "1.0.0",
+      "tags": ["query", "pattern-based", "rule-based", "metadata"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.query.simple_query_writer_agent",
+      "class_name": "SimpleQueryWriterAgent",
+      "config_path": "configs/simple_query_writer_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 512,
+        "temperature": 0.2,
+        "top_p": 0.95
+      },
+      "prompt_id": "rag.simple_query_writer",
+      "tools": ["schema_tool"]
+    },
+    {
+      "id": "dengue_data_visualization_agent",
+      "name": "Dengue Data Visualization Agent",
+      "description": "Specialized agent for retrieving and visualizing dengue prediction data",
+      "version": "1.0.0",
+      "tags": ["dengue", "visualization", "data", "deprecated"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.enhancement.dengue_data_visualization_agent",
+      "class_name": "DengueDataVisualizationAgent",
+      "config_path": "configs/dengue_data_visualization_agent.yaml",
+      "active": true,
+      "deprecation_info": {
+        "deprecated": true,
+        "replaced_by": "response_generator_agent",
+        "reason": "Functionality merged into ResponseGeneratorAgent"
+      },
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.2,
+        "top_p": 0.9
+      },
+      "prompt_id": "enhancement.dengue_data_visualization",
+      "tools": ["extract_dates_from_natural_language_tool"]
+    },
+    {
+      "id": "template_selector_agent",
+      "name": "Template Selector Agent",
+      "description": "Placeholder agent for selecting response templates",
+      "version": "1.0.0",
+      "tags": ["response", "template", "selection"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.synthesis.template_selector_agent",
+      "class_name": "TemplateSelectorAgent",
+      "config_path": "configs/template_selector_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 512,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.template_selector",
+      "tools": []
+    },
+    {
+      "id": "response_generator_agent",
+      "name": "Response Generator Agent",
+      "description": "Enhanced agent for generating high-quality responses with integrated data visualization and country-specific dengue data analysis",
+      "version": "1.0.0",
+      "tags": ["response", "visualization", "dengue", "data", "countries"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.synthesis.response_generator_agent",
+      "class_name": "ResponseGeneratorAgent",
+      "config_path": "configs/response_generator_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 2048,
+        "temperature": 0.5,
+        "top_p": 0.95
+      },
+      "prompt_id": "rag.response_generator",
+      "tools": ["extract_dates_from_natural_language_tool", "citation_tool"]
+    },
+    {
+      "id": "rag_output_combiner_agent",
+      "name": "Output Combiner Agent",
+      "description": "Agent for combining output from multiple sources with improved structured data handling",
+      "version": "1.0.0",
+      "tags": ["output", "combiner", "json", "workflow"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.output_combiner_agent",
+      "class_name": "OutputCombinerAgent",
+      "config_path": "configs/rag_output_combiner_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.output_combiner",
+      "tools": []
+    },
+    {
+      "id": "rag_user_query_rewriter_agent",
+      "name": "User Query Rewriter Agent",
+      "description": "Agent that reformulates user queries for improved retrieval accuracy",
+      "version": "1.0.0",
+      "tags": ["query", "rewriting", "reformulation", "rag"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.user_query_rewriter_agent",
+      "class_name": "UserQueryRewriterAgent",
+      "config_path": "configs/rag_user_query_rewriter_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.user_query_rewriter",
+      "tools": []
+    },
+    {
+      "id": "graphrag_code_general_agent",
+      "name": "Graphrag Code General Agent",
+      "description": "Routing agent for handling graph database and code-related queries",
+      "version": "1.0.0",
+      "tags": ["routing", "graph", "code", "rag"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.routing.graphrag_code_general_agent",
+      "class_name": "GraphragCodeGeneralAgent",
+      "config_path": "configs/graphrag_code_general_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.4,
+        "top_p": 0.9
+      },
+      "prompt_id": "routing.graphrag_code_general",
+      "tools": []
+    },
+    {
+      "id": "rag_response_generator_agent",
+      "name": "Response Generator Agent",
+      "description": "Agent for generating comprehensive responses based on retrieved information",
+      "version": "1.0.0",
+      "tags": ["response", "generator", "rag"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.response_generator_agent",
+      "class_name": "ResponseGeneratorAgent",
+      "config_path": "configs/rag_response_generator_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1536,
+        "temperature": 0.4,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.response_generator_legacy",
+      "tools": ["citation_tool"]
+    },
+    {
+      "id": "rag_graph_query_executor_agent",
+      "name": "Graph Query Executor Agent",
+      "description": "Agent for executing and processing graph database queries with result metadata",
+      "version": "1.0.0",
+      "tags": ["graph", "query", "execution", "neo4j"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.retrieval.graph_query_executor_agent",
+      "class_name": "GraphQueryExecutorAgent",
+      "config_path": "configs/rag_graph_query_executor_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.graph_query_executor",
+      "tools": ["cypher_tool"]
+    },
+    {
+      "id": "rag_federated_query_agent",
+      "name": "Federated Query Agent",
+      "description": "Agent for querying multiple data sources and aggregating the results",
+      "version": "1.0.0",
+      "tags": ["federated", "query", "aggregation", "multiple-sources"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.federated_query_agent",
+      "class_name": "FederatedQueryAgent",
+      "config_path": "configs/rag_federated_query_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.3,
+        "top_p": 0.9
+      },
+      "prompt_id": "rag.federated_query",
+      "tools": ["vector_search_tool", "cypher_tool"]
+    },
+    {
+      "id": "jinja_test_assistant",
+      "name": "Jinja Test Assistant",
+      "description": "Agent for testing and demonstrating Jinja2 templating capabilities",
+      "version": "1.0.0",
+      "tags": ["jinja2", "template", "test"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.assistants.jinja_test_assistant",
+      "class_name": "JinjaTestAssistant",
+      "config_path": "configs/jinja_test_assistant.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.7,
+        "top_p": 0.95
+      },
+      "prompt_id": "assistants.jinja_test",
+      "tools": ["sample_jinja_tool"]
+    },
+    {
+      "id": "rag_another_test_agent",
+      "name": "Another Test Agent",
+      "description": "Example test agent for demonstrating agent system features",
+      "version": "1.0.0",
+      "tags": ["test", "example", "demonstration"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.agent_system.rag_system.another_test_agent",
+      "class_name": "AnotherTestAgent",
+      "config_path": "configs/rag_another_test_agent.yaml",
+      "active": true,
+      "model_config": {
+        "model_type": "instruct",
+        "max_tokens": 1024,
+        "temperature": 0.7,
+        "top_p": 0.95
+      },
+      "prompt_id": "test.another_test",
+      "tools": []
+    }
+  ]
+}

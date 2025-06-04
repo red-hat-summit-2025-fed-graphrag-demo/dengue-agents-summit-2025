@@ -1,0 +1,13 @@
+{
+  "name": "Merge Sort Implementation",
+  "input": "Write a JavaScript function to implement merge sort",
+  "validation": {
+    "type": "code_validation",
+    "criteria": {
+      "language": "javascript",
+      "must_contain": ["function", "sort", "return", "merge"],
+      "expected_patterns": ["function\\s+\\w+\\s*\\(", "\\bmerge\\b", "return"],
+      "syntax_check": true
+    }
+  }
+}

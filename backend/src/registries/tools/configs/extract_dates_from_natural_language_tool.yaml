@@ -1,0 +1,78 @@
+# Tool Configuration Template
+# 
+# This template defines the standard structure for tool configurations.
+# Replace placeholder values with appropriate values for your specific tool.
+# 
+# Fields marked with [REQUIRED] must be completed for the tool to function.
+# Fields marked with [OPTIONAL] provide additional configuration options.
+
+# Basic Tool Information
+id: "extract_dates_from_natural_language_tool"                          # [REQUIRED] Unique identifier for the tool
+name: "Extract Dates From Natural Language Tool"                      # [REQUIRED] Human-readable name
+description: |                               # [REQUIRED] Brief description of the tool's purpose
+  A specialized tool for extract_dates_from_natural_language_tool functionality
+  Add more details about what the tool does and how it works.
+version: "1.0.0"                             # [OPTIONAL] Semantic version
+enabled: true                                # [REQUIRED] Whether tool is active
+
+# Tool Classification
+tool_type: "utility"                      # [OPTIONAL] Type for categorization (e.g., database, vector, external_api)
+
+# Access Control
+requires_permissions:                        # [OPTIONAL] List of permissions required to use this tool
+  - "{{ permission_1 }}"
+  # - Add more permissions as needed
+
+allowed_agents:                              # [OPTIONAL] List of agent IDs allowed to use this tool
+  - "{{ agent_id_1 }}"
+  # - Add more agent IDs as needed
+
+# Tool Capabilities
+capabilities:                                # [OPTIONAL] List of specific capabilities this tool provides
+  - "{{ capability_1 }}"
+  - "{{ capability_2 }}"
+  # - Add more capabilities as needed
+
+# Tool Parameters
+parameters:                                  # [OPTIONAL] Parameters schema for the tool
+  param1:
+    type: "string"
+    description: "Description of parameter"
+    required: true
+  param2:
+    type: "integer"
+    description: "Description of parameter"
+    required: false
+    default: 10
+  # Add more parameters as needed
+
+# Tool Response
+response_format:                             # [OPTIONAL] Format of the tool's response
+  type: "object"
+  properties:
+    result:
+      type: "string"
+      description: "Description of result field"
+    status:
+      type: "string"
+      enum: ["success", "error"]
+      description: "Status of operation"
+  # Add more response properties as needed
+
+# Usage Examples
+usage_examples:                              # [OPTIONAL] Examples of how to use this tool
+  - description: "Example 1 description"
+    code: |
+      result = await extract_dates_from_natural_language_tool.execute(param1="value", param2=10)
+      
+  - description: "Example 2 description"
+    code: |
+      result = await extract_dates_from_natural_language_tool.execute({
+          "param1": "value",
+          "param2": 20
+      })
+
+# Additional Configuration
+timeout_seconds: 30                          # [OPTIONAL] Tool execution timeout
+rate_limit: 10                               # [OPTIONAL] Requests per minute allowed
+# Add additional tool-specific configuration as needed

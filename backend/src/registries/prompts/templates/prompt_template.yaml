@@ -1,0 +1,23 @@
+id: '{{ category }}.{{ prompt_id }}'
+name: '{{ Prompt Name }}'
+description: '{{ Prompt description }}'
+version: 1.0.0
+tags:
+- '{{ tag1 }}'
+- '{{ tag2 }}'
+created_at: '2025-05-14'
+updated_at: '2025-05-14'
+author: Dengue Project Team
+models:
+- '{{ compatible_model }}'
+benchmarks: null
+prompt: '{{ Your prompt text goes here }}
+
+
+  {{ Include instructions, examples, and context as needed }}
+
+
+  {{ Use variables like {{variable_name}} for dynamic content }}
+
+  '
+active: true

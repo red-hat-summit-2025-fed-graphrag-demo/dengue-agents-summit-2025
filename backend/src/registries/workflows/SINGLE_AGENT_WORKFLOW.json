@@ -1,0 +1,16 @@
+{
+  "workflow_id": "SINGLE_AGENT_WORKFLOW",
+  "name": "Single Agent Test Workflow",
+  "description": "A simple workflow for testing a single agent",
+  "version": "1.0",
+  "template": true,
+  "agents": [
+    {
+      "agent_id": "AGENT_ID_PLACEHOLDER",
+      "conditions": {
+        "always": true
+      }
+    }
+  ],
+  "default_agent": "AGENT_ID_PLACEHOLDER"
+}

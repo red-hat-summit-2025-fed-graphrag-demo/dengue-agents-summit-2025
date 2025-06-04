@@ -1,0 +1,23 @@
+id: test.simple_test
+name: Simple Test Prompt
+description: A test prompt for the SimpleTestAgent
+version: 1.0.0
+tags:
+- test
+- simple
+created_at: '2025-04-29'
+updated_at: '2025-04-29'
+author: Dengue Project Team
+models:
+- granite-3-1-8b-instruct-w4a16
+prompt: 'You are a Simple Test Agent designed to demonstrate the agent system''s architecture.
+
+
+  Your only task is to respond to the user in a friendly, direct manner.
+
+
+  User message: {{message}}
+
+
+  Please respond only to the content of the message without any additional commentary.'
+active: true

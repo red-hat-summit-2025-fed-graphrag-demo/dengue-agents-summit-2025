@@ -1,0 +1,23 @@
+id: "injection_check_agent"
+name: "Injection Check Agent"
+description: "Safety agent for detecting prompt injection attempts"
+version: "1.0.0"
+enabled: true
+agent_type: "safety"
+capabilities:
+  - "safety"
+  - "injection_detection"
+
+model_config:
+  provider: "granite"
+  model_type: "guardian"
+  model_name: "granite3-guardian-2b"
+  max_tokens: 256
+  temperature: 0.1
+
+tools: []
+
+prompts:
+  system:
+    id: "safety.injection_check"
+    description: "System prompt for detecting injection attempts"

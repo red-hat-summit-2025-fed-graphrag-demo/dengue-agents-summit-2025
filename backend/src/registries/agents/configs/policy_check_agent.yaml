@@ -1,0 +1,23 @@
+id: "policy_check_agent"
+name: "Policy Check Agent"
+description: "Safety agent for enforcing content policy compliance"
+version: "1.0.0"
+enabled: true
+agent_type: "safety"
+capabilities:
+  - "safety"
+  - "policy_enforcement"
+
+model_config:
+  provider: "granite"
+  model_type: "guardian"
+  model_name: "granite3-guardian-2b"
+  max_tokens: 256
+  temperature: 0.1
+
+tools: []
+
+prompts:
+  system:
+    id: "safety.policy_check"
+    description: "System prompt for policy enforcement"

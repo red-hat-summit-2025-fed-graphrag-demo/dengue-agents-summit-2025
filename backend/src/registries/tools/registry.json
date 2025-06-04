@@ -1,0 +1,110 @@
+{
+  "tools": [
+    {
+      "id": "cypher_tool",
+      "name": "Cypher Query Tool",
+      "description": "Executes Cypher queries against the Neo4j knowledge graph",
+      "version": "1.0.0",
+      "tags": ["database", "query", "knowledge_graph"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.tools.cypher_tool",
+      "class_name": "CypherTool",
+      "config_path": "configs/cypher_tool.yaml",
+      "active": true,
+      "allowed_agents": ["*"]
+    },
+    {
+      "id": "schema_tool",
+      "name": "Schema Tool",
+      "description": "Retrieves database schema information",
+      "version": "1.0.0",
+      "tags": ["database", "schema", "metadata"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.tools.schema_tool",
+      "class_name": "SchemaTool",
+      "config_path": "configs/schema_tool.yaml",
+      "active": true,
+      "allowed_agents": ["*"]
+    },
+    {
+      "id": "vector_search_tool",
+      "name": "Vector Search Tool",
+      "description": "Performs vector search operations for semantic retrieval",
+      "version": "1.0.0",
+      "tags": ["vector", "search", "rag"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.tools.vector_search_tool",
+      "class_name": "VectorSearchTool",
+      "config_path": "configs/vector_search_tool.yaml",
+      "active": true,
+      "allowed_agents": ["*"]
+    },
+    {
+      "id": "extract_dates_from_natural_language_tool",
+      "name": "Extract Dates From Natural Language Tool",
+      "description": "Extracts date references from natural language queries",
+      "version": "1.0.0",
+      "tags": ["dates", "parsing", "nlp"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.tools.extract_dates_from_natural_language_tool",
+      "class_name": "ExtractDatesFromNaturalLanguageTool",
+      "config_path": "configs/extract_dates_from_natural_language_tool.yaml",
+      "active": true,
+      "allowed_agents": ["*"]
+    },
+    {
+      "id": "citation_tool",
+      "name": "Citation Tool",
+      "description": "Generates properly formatted citations for information sources",
+      "version": "1.0.0",
+      "tags": ["citation", "formatting", "references"],
+      "created_at": "2025-05-01",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.tools.citation_tool",
+      "class_name": "CitationTool",
+      "config_path": "configs/citation_tool.yaml",
+      "active": true,
+      "allowed_agents": ["*"]
+    },
+    {
+      "id": "sample_jinja_tool",
+      "name": "Sample Jinja Tool",
+      "description": "Example tool demonstrating Jinja2 templating functionality",
+      "version": "1.0.0",
+      "tags": ["jinja2", "template", "sample"],
+      "created_at": "2025-05-14",
+      "updated_at": "2025-05-14",
+      "author": "Dengue Project Team",
+      "module_path": "src.tools.sample_jinja_tool",
+      "class_name": "SampleJinjaToolTool",
+      "config_path": "configs/sample_jinja_tool.yaml",
+      "active": true,
+      "allowed_agents": [
+        "query_writer_agent",
+        "content_compliance_agent"
+      ],
+      "type": "utility"
+    },
+    {
+      "id": "another_test_tool",
+      "name": "Another Test Tool",
+      "description": "A specialized tool for another_test_tool functionality",
+      "module_path": "src.tools.another_test_tool",
+      "class_name": "AnotherTestToolTool",
+      "config_path": "configs/another_test_tool.yaml",
+      "active": true,
+      "enabled": true,
+      "allowed_agents": [],
+      "type": "utility"
+    }
+  ]
+}

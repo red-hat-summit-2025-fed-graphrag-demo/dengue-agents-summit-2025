@@ -1,0 +1,382 @@
+"""
+Agent for ensuring final content compliance.
+"""
+import logging
+import json
+from typing import Any, Dict, List, Optional, Tuple, Union
+
+from src.agent_system.core.message import Message, MessageRole
+from src.agent_system.safety.safety_agent_base import SafetyAgentBase
+from src.registries.prompt_registry import PromptRegistry
+
+logger = logging.getLogger(__name__)
+
+
+class ContentComplianceAgent(SafetyAgentBase):
+    """
+    Content compliance agent for the "back of the sandwich" safety checks.
+    
+    This agent checks the final generated content before it is returned to the user,
+    ensuring no unsafe content passes through even if previous safety checks missed it.
+    
+    Key focuses:
+    1. PII/PHI detection and redaction
+    2. Appropriate content for the intended audience
+    3. Final check for harmful or policy-violating content
+    """
+    
+    def __init__(self, agent_id: str, config: Dict[str, Any], workflow_manager=None, **kwargs):
+        """
+        Initialize the content compliance agent.
+        
+        Args:
+            agent_id: The unique identifier for this agent
+            config: Agent configuration dictionary
+            workflow_manager: Optional reference to the parent WorkflowManager
+            **kwargs: Additional keyword arguments
+        """
+        # Make sure agent_id is in the config
+        if "agent_id" not in config:
+            config["agent_id"] = agent_id
+            
+        super().__init__(config, workflow_manager=workflow_manager, **kwargs)
+        
+        # Get a reference to the prompt registry
+        self.prompt_registry = PromptRegistry()
+        
+        # Set the prompt IDs (can be overridden in config)
+        self.compliance_prompt_id = config.get("compliance_prompt_id", "safety.content_compliance_system")
+        self.remediation_prompt_id = config.get("remediation_prompt_id", "safety.content_remediation")
+        
+        logger.info(f"Initialized ContentComplianceAgent with prompt IDs: {self.compliance_prompt_id}, {self.remediation_prompt_id}")
+    
+    async def _stream_thinking_hook(self, stream_callback: Any):
+        """Optional hook called by BaseAgent.process to stream initial thoughts."""
+        await self.stream_thinking(
+            thinking=f"Running final content compliance check...",
+            stream_callback=stream_callback
+        )
+    
+    async def _execute_processing(
+        self,
+        message: Message,
+        session_id: Optional[str] = None
+    ) -> Tuple[Optional[Message], Optional[str]]:
+        """Core processing logic for the ContentComplianceAgent.
+        
+        Args:
+            message: The message to process
+            session_id: Optional session identifier
+            
+        Returns:
+            Tuple of (processed message, next agent ID)
+        """
+        # Extract relevant information from incoming message
+        input_content = message.content
+        input_metadata = message.metadata or {}
+        original_query = input_metadata.get("original_query", "")
+        
+        # Check if the content is JSON
+        is_json = input_metadata.get("is_json_response", False)
+        logger.info(f"ContentComplianceAgent processing JSON content: {is_json}")
+        
+        # Add debugging information about the content
+        content_sample = input_content[:100] + "..." if len(input_content) > 100 else input_content
+        logger.info(f"Content sample: {content_sample}")
+        logger.info(f"Content type: {type(input_content)}")
+        
+        # Handle JSON format
+        if is_json:
+            try:
+                # If the content is already a dict (from a previous step), use it directly
+                if isinstance(input_content, dict):
+                    json_content = input_content
+                    logger.info("Using input_content directly as it's already a dictionary")
+                else:
+                    # Parse the JSON content
+                    json_content = json.loads(input_content)
+                    logger.info(f"Successfully parsed JSON from string: {len(input_content)} characters")
+                
+                # Extract the actual text part that needs compliance checking
+                extracted_text = self._extract_text_from_json(json_content)
+                logger.info(f"Extracted text for compliance check: {len(extracted_text)} characters")
+                
+                # Check if the extracted text is compliant
+                is_compliant, confidence, violation_details = await self._evaluate_safety(extracted_text)
+                
+                if is_compliant:
+                    # If compliant, return the original JSON content unchanged
+                    result_message = Message(
+                        role=MessageRole.ASSISTANT,
+                        content=input_content,
+                        metadata={
+                            **input_metadata,
+                            "compliance_checked": True,
+                            "compliance_agent_id": self.agent_id,
+                            "is_compliant": True,
+                            "compliance_confidence": confidence
+                        }
+                    )
+                    return result_message, None
+                else:
+                    # If not compliant, handle remediation at the text level
+                    remediated_text = await self._remediate_content(extracted_text, violation_details)
+                    
+                    if remediated_text:
+                        # Update the JSON with remediated text
+                        updated_json = self._update_json_with_remediated_text(json_content, remediated_text)
+                        
+                        # Determine how to format the result based on input type
+                        result_content = json.dumps(updated_json, indent=2) if isinstance(input_content, str) else updated_json
+                        
+                        result_message = Message(
+                            role=MessageRole.ASSISTANT,
+                            content=result_content,
+                            metadata={
+                                **input_metadata,
+                                "compliance_checked": True,
+                                "compliance_agent_id": self.agent_id,
+                                "is_compliant": False,
+                                "was_remediated": True,
+                                "compliance_confidence": confidence
+                            }
+                        )
+                    else:
+                        # If remediation failed, return a rejection message
+                        rejection_json = {
+                            "error": "Content compliance failure",
+                            "message": "I apologize, but I cannot provide an answer to that question. Please try asking something else."
+                        }
+                        
+                        # Format accordingly based on input type
+                        result_content = json.dumps(rejection_json, indent=2) if isinstance(input_content, str) else rejection_json
+                        
+                        result_message = Message(
+                            role=MessageRole.ASSISTANT,
+                            content=result_content,
+                            metadata={
+                                **input_metadata,
+                                "compliance_checked": True,
+                                "compliance_agent_id": self.agent_id,
+                                "is_compliant": False,
+                                "was_remediated": False,
+                                "compliance_confidence": confidence
+                            }
+                        )
+                    
+                    return result_message, None
+            
+            except json.JSONDecodeError as e:
+                logger.warning(f"Failed to parse JSON content: {e}, falling back to text processing")
+                logger.info(f"First 50 characters of content: {input_content[:50]}")
+                # Fall back to text processing on JSON parse error
+            except Exception as e:
+                logger.warning(f"Unexpected error handling JSON: {e}, falling back to text processing")
+                # Fall back to text processing on any error
+        
+        # Regular text processing (non-JSON or fallback)
+        # Preserve the original response content for compliant content
+        original_response = input_metadata.get("query", "")
+        if not original_response:
+            original_response = input_content
+        
+        # Check if the message content is compliant
+        is_compliant, confidence, violation_details = await self._evaluate_safety(original_response)
+        
+        # Always return the original response if it passed compliance check
+        # This ensures we preserve the full response with citations
+        if is_compliant:
+            result_message = Message(
+                role=MessageRole.ASSISTANT,
+                content=original_response,
+                metadata={
+                    **input_metadata,
+                    "compliance_checked": True,
+                    "compliance_agent_id": self.agent_id,
+                    "is_compliant": True,
+                    "compliance_confidence": confidence
+                }
+            )
+            return result_message, None
+        
+        # Handle non-compliant content (remediate or reject)
+        remediated_content = await self._remediate_content(original_response, violation_details)
+        
+        # Create the result message with remediated content or rejection
+        if remediated_content:
+            result_message = Message(
+                role=MessageRole.ASSISTANT,
+                content=remediated_content,
+                metadata={
+                    **input_metadata,
+                    "compliance_checked": True,
+                    "compliance_agent_id": self.agent_id,
+                    "is_compliant": False,
+                    "was_remediated": True,
+                    "compliance_confidence": confidence
+                }
+            )
+        else:
+            # If remediation failed, return a rejection message
+            result_message = Message(
+                role=MessageRole.ASSISTANT,
+                content="I apologize, but I cannot provide an answer to that question. Please try asking something else.",
+                metadata={
+                    **input_metadata,
+                    "compliance_checked": True,
+                    "compliance_agent_id": self.agent_id,
+                    "is_compliant": False,
+                    "was_remediated": False,
+                    "compliance_confidence": confidence
+                }
+            )
+        
+        return result_message, None
+        
+    def _extract_text_from_json(self, json_content: Dict[str, Any]) -> str:
+        """
+        Extract the text content from a JSON structure that needs compliance checking.
+        
+        Args:
+            json_content: JSON structure to extract text from
+            
+        Returns:
+            Text content for compliance checking
+        """
+        extracted_texts = []
+        
+        # Extract the response field if it exists
+        if "response" in json_content and json_content["response"]:
+            extracted_texts.append(json_content["response"])
+        
+        # Extract summaries from data if they exist
+        if "data" in json_content:
+            data = json_content["data"]
+            
+            # Extract summaries from analysis
+            if "analysis" in data and "summaries" in data["analysis"]:
+                for summary in data["analysis"]["summaries"]:
+                    if "summary" in summary:
+                        extracted_texts.append(summary["summary"])
+            
+            # Extract insights and recommendations
+            if "analysis" in data:
+                analysis = data["analysis"]
+                if "insights" in analysis:
+                    extracted_texts.extend(analysis["insights"])
+                if "recommendations" in analysis:
+                    extracted_texts.extend(analysis["recommendations"])
+                if "data_notes" in analysis:
+                    extracted_texts.extend(analysis["data_notes"])
+        
+        # Combine all extracted text
+        combined_text = "\n\n".join(extracted_texts)
+        
+        # Return default message if no text found
+        if not combined_text:
+            return "No text content found in JSON"
+        
+        return combined_text
+    
+    def _update_json_with_remediated_text(self, json_content: Dict[str, Any], remediated_text: str) -> Dict[str, Any]:
+        """
+        Update the JSON content with remediated text.
+        
+        Args:
+            json_content: Original JSON content
+            remediated_text: Remediated text to insert
+            
+        Returns:
+            Updated JSON content
+        """
+        # Create a deep copy of the original content to avoid modifying it
+        updated_json = json.loads(json.dumps(json_content))
+        
+        # Update the response field directly
+        if "response" in updated_json:
+            updated_json["response"] = remediated_text
+            
+        # Add a note about remediation
+        updated_json["remediation_note"] = "This content has been modified to comply with content policies."
+        
+        return updated_json
+    
+    async def _evaluate_safety(self, content: str) -> Tuple[bool, float, str]:
+        """
+        Evaluate the compliance of generated content.
+        
+        Args:
+            content: The content to evaluate
+            
+        Returns:
+            Tuple of (is_compliant, confidence, violation_details)
+        """
+        # Get the compliance check prompt from the registry
+        system_prompt = self.prompt_registry.get_prompt(
+            prompt_id=self.compliance_prompt_id
+        )
+        
+        # Use a generic user message asking to check the content
+        user_message = f"Please check if the following AI-generated content is compliant:\n\n{content}"
+        
+        # Prepare messages for the compliance check
+        messages = [
+            Message(role=MessageRole.SYSTEM, content=system_prompt),
+            Message(role=MessageRole.USER, content=user_message)
+        ]
+        
+        # Call LLM to check compliance
+        result, _ = await self.call_llm(messages)
+        
+        # Stream the analysis result
+        if self.current_stream_callback:
+            await self.stream_thinking(
+                thinking=f"Compliance analysis complete: {result}",
+                stream_callback=self.current_stream_callback
+            )
+        
+        # Determine if non-compliant content was detected
+        is_non_compliant = "NON_COMPLIANT" in result.upper()
+        
+        if is_non_compliant:
+            # Extract explanation if non-compliant content was detected
+            explanation = result.replace("NON_COMPLIANT:", "").strip()
+            if not explanation:
+                explanation = "contains inappropriate or unsafe content"
+                
+            logger.warning(f"Non-compliant content detected: {explanation}")
+            return False, 0.9, explanation
+        else:
+            return True, 0.95, ""
+    
+    async def _remediate_content(self, content: str, violation_details: str) -> str:
+        """
+        Attempt to remediate non-compliant content.
+        
+        Args:
+            content: The non-compliant content
+            violation_details: Details about the compliance violation
+            
+        Returns:
+            Remediated content
+        """
+        # Get the remediation prompt from the registry
+        remediation_prompt = self.prompt_registry.get_prompt(
+            prompt_id=self.remediation_prompt_id,
+            categories=violation_details,
+            content=content
+        )
+        
+        # Prepare messages for remediation
+        messages = [
+            Message(role=MessageRole.SYSTEM, content=remediation_prompt),
+            Message(role=MessageRole.USER, content="Please remediate this content.")
+        ]
+        
+        # Call LLM to remediate content
+        remediated_content, _ = await self.call_llm(messages)
+        
+        # Log the remediation
+        logger.info(f"Content remediated due to: {violation_details}")
+        
+        return remediated_content

@@ -1,0 +1,17 @@
+{
+  "id": "COMPLIANCE_SANDWICH_WORKFLOW",
+  "name": "Compliance Sandwich Workflow",
+  "description": "Standard workflow with safety checks before and after processing",
+  "version": "1.0",
+  "steps": [
+    "injection_check_agent",
+    "policy_check_agent",
+    null,
+    "content_compliance_agent"
+  ],
+  "metadata": {
+    "created_at": "2025-04-29",
+    "author": "Dengue Project Team",
+    "notes": "The fourth step (index 3) is a placeholder that will be replaced at runtime by the task_router_agent's selection"
+  }
+}

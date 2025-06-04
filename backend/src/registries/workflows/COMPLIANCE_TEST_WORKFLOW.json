@@ -1,0 +1,15 @@
+{
+  "id": "COMPLIANCE_TEST_WORKFLOW",
+  "name": "Compliance Test Workflow",
+  "description": "Simple workflow for testing the content_compliance_agent in isolation",
+  "version": "1.0.0",
+  "steps": [
+    "content_compliance_agent"
+  ],
+  "metadata": {
+    "created_at": "2025-05-04",
+    "updated_at": "2025-05-04",
+    "author": "Dengue Project Team",
+    "notes": "Isolated workflow for testing content compliance only"
+  }
+}

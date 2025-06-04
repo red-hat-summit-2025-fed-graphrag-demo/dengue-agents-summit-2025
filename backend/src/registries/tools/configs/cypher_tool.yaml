@@ -1,0 +1,78 @@
+# Cypher Tool Configuration
+id: "cypher_tool"
+name: "Cypher Query Tool"
+description: |
+  The Cypher Tool allows agents to query the Neo4j knowledge graph using Cypher.
+  It supports citation retrieval and can automatically include citations in results.
+version: "1.0.0"
+enabled: true
+
+# Tool Classification
+tool_type: "database"
+
+# Access Control
+requires_permissions:
+  - "database_read"
+
+allowed_agents:
+  - "rag_query_writer_agent"
+  # Add more agent IDs as needed
+
+# Tool Capabilities
+capabilities:
+  - "Execute arbitrary Cypher queries"
+  - "Include citations in results"
+  - "Search for citations by topic"
+  - "Retrieve citations for specific nodes"
+
+# Tool Parameters
+parameters:
+  query:
+    type: "string"
+    description: "Cypher query to execute against the database"
+    required: true
+  params:
+    type: "object"
+    description: "Query parameters"
+    required: false
+    default: {}
+  include_citations:
+    type: "boolean"
+    description: "Whether to include citations in results"
+    required: false
+    default: false
+
+# Tool Response
+response_format:
+  type: "object"
+  properties:
+    results:
+      type: "array"
+      description: "Query results as an array of records"
+    summary:
+      type: "string"
+      description: "Human-readable summary of results"
+    citations:
+      type: "array"
+      description: "List of citations if requested"
+    status:
+      type: "string"
+      enum: ["success", "error"]
+      description: "Status of operation"
+
+# Usage Examples
+usage_examples:
+  - description: "Basic node count"
+    code: |
+      result = await cypher_tool.execute_query("MATCH (n) RETURN count(n) as count")
+      
+  - description: "Query with citations"
+    code: |
+      result = await cypher_tool.execute_query(
+          "MATCH (d:Disease {name: 'Dengue Fever'}) RETURN d.name",
+          include_citations=True
+      )
+
+# Additional Configuration
+timeout_seconds: 30
+rate_limit: 20

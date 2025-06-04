@@ -1,0 +1,33 @@
+{
+  "template_id": "code_example",
+  "name": "Dengue Data Analysis Code Example",
+  "description": "Template for providing code examples related to dengue data analysis",
+  "template_content": "# Dengue Data Analysis Code Example\n\n{% if visualization_data %}\n[VISUALIZATION: Graph showing key aspects of dengue data]\n{% endif %}\n\n## Background Information\n\n{{ background_information }}\n\n{% if last_graph_results and last_graph_results.data %}\n## Available Data\n\nThe following data is available for analysis:\n\n{% for item in last_graph_results.data %}\n- **{{ item.entity_type if item.entity_type else \"Data\" }}**: {{ item.description if item.description else item.name if item.name else \"Data point\" }}\n{% endfor %}\n{% endif %}\n\n## Code Example\n\n```{{ code_language }}\n{{ code_solution }}\n```\n\n{% if code_explanation %}\n## Code Explanation\n\n{{ code_explanation }}\n{% endif %}\n\n{% if code_usage_example %}\n## Example Usage\n\n```{{ code_language }}\n{{ code_usage_example }}\n```\n\n{% if code_output %}\n### Expected Output\n\n```\n{{ code_output }}\n```\n{% endif %}\n{% endif %}\n\n## Additional Information\n\n{{ additional_information }}\n\n{% if last_assessment.citations %}\n## Sources\n\n{% for citation in last_assessment.citations %}\n- {{ citation.authors }} ({{ citation.year }}). {{ citation.title }}. *{{ citation.journal }}*\n{% endfor %}\n{% endif %}",
+  "applicable_markers": [
+    "[CODE_QUERY]",
+    "[VISUALIZATION_READY]"
+  ],
+  "input_keys": [
+    "original_query",
+    "last_graph_results",
+    "last_assessment",
+    "visualization_data",
+    "code_language",
+    "code_solution",
+    "code_explanation",
+    "code_usage_example",
+    "code_output",
+    "background_information",
+    "additional_information"
+  ],
+  "query_patterns": [
+    "code for",
+    "python",
+    "program",
+    "script",
+    "visualization",
+    "analyze dengue"
+  ],
+  "is_priority": false,
+  "additional_suggestions": "This template is used for queries that seek programming code to work with dengue data."
+}

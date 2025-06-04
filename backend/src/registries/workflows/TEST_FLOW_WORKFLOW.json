@@ -1,0 +1,16 @@
+{
+  "id": "TEST_FLOW_WORKFLOW",
+  "name": "Test Workflow",
+  "description": "Simple workflow for test workflow",
+  "version": "1.0.0",
+  "steps": [
+    "simple_test_agent",
+    "code_assistant"
+  ],
+  "metadata": {
+    "created_at": "2025-04-30",
+    "updated_at": "2025-04-30",
+    "author": "Dengue Project Team",
+    "notes": "Standard workflow with 2 agent(s)"
+  }
+}

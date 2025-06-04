@@ -1,0 +1,29 @@
+id: test.fixed_test_prompt
+name: Fixed Test Prompt Prompt
+description: System prompt for fixed test prompt prompt
+version: 1.0.0
+tags:
+- testing
+- fixed
+created_at: '2025-04-30'
+updated_at: '2025-04-30'
+author: Dengue Project Team
+models:
+- granite-3-1-8b-instruct-w4a16
+prompt: 'You are a specialized Fixed Test Prompt Prompt agent.
+
+
+  Your task is to:
+
+  1. [Describe primary task]
+
+  2. [Describe secondary task]
+
+
+  User query: {{message}}
+
+
+  Please respond in a clear, helpful manner.
+
+  '
+active: true

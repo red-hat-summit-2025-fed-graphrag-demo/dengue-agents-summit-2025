@@ -1,0 +1,34 @@
+[
+  {
+    "model_id": "granite3-guardian-2b",
+    "provider": "granite",
+    "display_name": "Granite Guardian",
+    "capabilities": [],
+    "context_length": 8192,
+    "description": "IBM model specialized for safety and policy checks."
+  },
+  {
+    "model_id": "granite-3-1-8b-instruct-w4a16",
+    "provider": "granite",
+    "display_name": "Granite Instruct",
+    "capabilities": ["general", "function_calling"],
+    "context_length": 8192,
+    "description": "IBM instruction-following model for general tasks."
+  },
+  {
+    "model_id": "granite-embedding-278m-multilingual",
+    "provider": "granite",
+    "display_name": "Granite Embedding",
+    "capabilities": ["embedding"],
+    "context_length": 8192,
+    "description": "IBM multilingual embedding model."
+  },
+  {
+    "model_id": "mixtralai/Mixtral-8x7B-Instruct-v0.1",
+    "provider": "mixtral", 
+    "display_name": "Mixtral Instruct",
+    "capabilities": ["general", "code"],
+    "context_length": 32768,
+    "description": "Mistral AI's Mixtral instruct model for coding and general tasks."
+  }
+]

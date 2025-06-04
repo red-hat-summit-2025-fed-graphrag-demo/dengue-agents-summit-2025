@@ -1,0 +1,23 @@
+id: "simple_test_agent"
+name: "Simple Test Agent"
+description: "A minimal agent for testing the agent system architecture"
+version: "1.0.0"
+enabled: true
+agent_type: "simple_test_agent"
+capabilities:
+  - "basic_response"
+  - "conversation"
+
+model_config:
+  provider: "granite"
+  model_type: "instruct"
+  model_name: "granite-3-1-8b-instruct-w4a16"
+  max_tokens: 1024
+  temperature: 0.7
+
+prompts:
+  system:
+    id: "test.simple_test"
+    description: "Basic system prompt for test agent"
+
+tools: []

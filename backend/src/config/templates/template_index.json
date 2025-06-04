@@ -1,0 +1,131 @@
+{
+  "by_id": {
+    "symptom_overview": {
+      "path": "symptom/symptom_overview.json",
+      "name": "Dengue Symptoms Overview",
+      "applicable_markers": [
+        "[SYMPTOM_QUERY]",
+        "[VISUALIZATION_READY]"
+      ],
+      "query_patterns": [
+        "what are symptoms",
+        "symptoms of dengue",
+        "how to recognize",
+        "signs of dengue"
+      ],
+      "required_data_keys": ["retrieved_symptoms"]
+    },
+    "general_overview": {
+      "path": "general/general_overview.json",
+      "name": "Dengue General Overview",
+      "applicable_markers": [
+        "[GENERAL_QUERY]",
+        "[VISUALIZATION_READY]"
+      ],
+      "query_patterns": [
+        "what is dengue",
+        "about dengue",
+        "dengue fever",
+        "dengue information"
+      ],
+      "required_data_keys": []
+    },
+    "disease_transmission": {
+      "path": "epidemiology/disease_transmission.json",
+      "name": "Dengue Transmission",
+      "applicable_markers": [
+        "[TRANSMISSION_QUERY]",
+        "[VISUALIZATION_READY]"
+      ],
+      "query_patterns": [
+        "how is dengue transmitted",
+        "dengue spread",
+        "dengue vector",
+        "mosquito",
+        "transmission"
+      ],
+      "required_data_keys": ["transmission_details"]
+    },
+    "treatment_options": {
+      "path": "treatment/treatment_options.json",
+      "name": "Dengue Treatment Options",
+      "applicable_markers": [
+        "[TREATMENT_QUERY]",
+        "[VISUALIZATION_READY]"
+      ],
+      "query_patterns": [
+        "treatment",
+        "how to treat",
+        "medication for dengue",
+        "manage dengue",
+        "cure for dengue"
+      ],
+      "required_data_keys": ["retrieved_treatments"]
+    },
+    "code_example": {
+      "path": "code/code_example.json",
+      "name": "Dengue Data Analysis Code Example",
+      "applicable_markers": [
+        "[CODE_QUERY]",
+        "[VISUALIZATION_READY]"
+      ],
+      "query_patterns": [
+        "code for",
+        "python",
+        "program",
+        "script",
+        "visualization",
+        "analyze dengue"
+      ],
+      "required_data_keys": ["code_snippet"]
+    },
+    "fallback_response": {
+      "path": "general/fallback_response.json",
+      "name": "General Dengue Information Fallback",
+      "applicable_markers": [],
+      "query_patterns": [],
+      "required_data_keys": []
+    }
+  },
+  "by_marker": {
+    "[SYMPTOM_QUERY]": [
+      "symptom_overview"
+    ],
+    "[VISUALIZATION_READY]": [
+      "symptom_overview",
+      "general_overview",
+      "disease_transmission",
+      "treatment_options",
+      "code_example"
+    ],
+    "[GENERAL_QUERY]": [
+      "general_overview"
+    ],
+    "[TRANSMISSION_QUERY]": [
+      "disease_transmission"
+    ],
+    "[TREATMENT_QUERY]": [
+      "treatment_options"
+    ],
+    "[CODE_QUERY]": [
+      "code_example"
+    ]
+  },
+  "by_query_type": {
+    "symptom": [
+      "symptom_overview"
+    ],
+    "general": [
+      "general_overview"
+    ],
+    "epidemiology": [
+      "disease_transmission"
+    ],
+    "treatment": [
+      "treatment_options"
+    ],
+    "code": [
+      "code_example"
+    ]
+  }
+}

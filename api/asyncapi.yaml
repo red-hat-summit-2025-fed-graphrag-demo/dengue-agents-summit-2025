@@ -1,0 +1,348 @@
+asyncapi: 2.6.0
+info:
+  title: Dengue Agents API
+  version: 0.1.0
+  description: |
+    WebSocket API for the Dengue Agents system, providing real-time communication 
+    for workflow execution and agent interactions.
+
+servers:
+  production:
+    url: ws://localhost:8000
+    protocol: ws
+    description: Local development server
+
+channels:
+  /ws/workflow/{workflowName}:
+    parameters:
+      workflowName:
+        description: ID of the workflow to execute
+        schema:
+          type: string
+    publish:
+      summary: Send message to workflow
+      operationId: sendWorkflowMessage
+      message:
+        $ref: '#/components/messages/WorkflowRequest'
+    subscribe:
+      summary: Receive workflow updates and results
+      operationId: receiveWorkflowUpdates
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ConnectionMessage'
+          - $ref: '#/components/messages/StreamUpdateMessage'
+          - $ref: '#/components/messages/WorkflowResultMessage'
+          - $ref: '#/components/messages/WorkflowErrorMessage'
+          - $ref: '#/components/messages/ErrorMessage'
+
+  /ws/agent/{agentId}:
+    parameters:
+      agentId:
+        description: ID of the agent to interact with
+        schema:
+          type: string
+    publish:
+      summary: Send message to agent
+      operationId: sendAgentMessage
+      message:
+        $ref: '#/components/messages/AgentRequest'
+    subscribe:
+      summary: Receive agent updates and responses
+      operationId: receiveAgentUpdates
+      message:
+        oneOf:
+          - $ref: '#/components/messages/ConnectionMessage'
+          - $ref: '#/components/messages/AgentStreamMessage'
+          - $ref: '#/components/messages/StatusMessage'
+          - $ref: '#/components/messages/AgentResponseMessage'
+          - $ref: '#/components/messages/ErrorMessage'
+
+components:
+  messages:
+    WorkflowRequest:
+      name: workflowRequest
+      title: Workflow Request
+      summary: Client request to execute a workflow
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - message
+        properties:
+          message:
+            type: string
+            description: User prompt/message content
+          metadata:
+            type: object
+            description: Optional metadata for the workflow
+            additionalProperties: true
+
+    AgentRequest:
+      name: agentRequest
+      title: Agent Request
+      summary: Client request to an agent
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          message:
+            type: string
+            description: Message content to process
+
+    ConnectionMessage:
+      name: connectionMessage
+      title: Connection Established
+      summary: Server message when a connection is established
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - client_id
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [connected]
+          client_id:
+            type: string
+            description: Client identifier
+          workflow_name:
+            type: string
+            description: Workflow name (for workflow connections)
+          agent_id:
+            type: string
+            description: Agent ID (for agent connections)
+          message:
+            type: string
+            description: Connection message
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    StreamUpdateMessage:
+      name: streamUpdateMessage
+      title: Stream Update
+      summary: Incremental update during workflow processing
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - agent_id
+          - message_type
+          - content
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [stream_update]
+          agent_id:
+            type: string
+            description: ID of the agent providing the update
+          message_type:
+            type: string
+            description: Type of message (e.g., status, thinking)
+          content:
+            type: string
+            description: Content of the update
+          data:
+            type: object
+            description: Additional data
+            additionalProperties: true
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    AgentStreamMessage:
+      name: agentStreamMessage
+      title: Agent Stream
+      summary: Incremental update during agent processing
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - agent_id
+          - message_type
+          - content
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [agent_stream]
+          agent_id:
+            type: string
+            description: ID of the agent providing the update
+          message_type:
+            type: string
+            description: Type of message
+          content:
+            type: string
+            description: Content of the update
+          data:
+            type: object
+            description: Additional data
+            additionalProperties: true
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    StatusMessage:
+      name: statusMessage
+      title: Status Message
+      summary: Status update during processing
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - status
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [status]
+          status:
+            type: string
+            description: Status indicator
+          message:
+            type: string
+            description: Status message
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    WorkflowResultMessage:
+      name: workflowResultMessage
+      title: Workflow Result
+      summary: Final result from a workflow execution
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - session_id
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [workflow_result]
+          content:
+            type: object
+            description: Result content
+            additionalProperties: true
+          metadata:
+            type: object
+            description: Metadata about the result
+            additionalProperties: true
+          trace_logs:
+            type: array
+            description: Execution trace logs
+            items:
+              type: object
+              additionalProperties: true
+          session_id:
+            type: string
+            description: Session identifier
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    WorkflowErrorMessage:
+      name: workflowErrorMessage
+      title: Workflow Error
+      summary: Error from a workflow execution
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - error
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [workflow_error]
+          error:
+            type: string
+            description: Error message
+          metadata:
+            type: object
+            description: Metadata about the error
+            additionalProperties: true
+          trace_logs:
+            type: array
+            description: Execution trace logs
+            items:
+              type: object
+              additionalProperties: true
+          session_id:
+            type: string
+            description: Session identifier
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    AgentResponseMessage:
+      name: agentResponseMessage
+      title: Agent Response
+      summary: Final response from an agent
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - agent_id
+          - content
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [response]
+          agent_id:
+            type: string
+            description: ID of the responding agent
+          content:
+            type: string
+            description: Response content
+          next_agent:
+            type: string
+            description: ID of the next agent to process (if any)
+            nullable: true
+          session_id:
+            type: string
+            description: Session identifier
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp
+
+    ErrorMessage:
+      name: errorMessage
+      title: Error Message
+      summary: General error message
+      contentType: application/json
+      payload:
+        type: object
+        required:
+          - type
+          - message
+          - timestamp
+        properties:
+          type:
+            type: string
+            enum: [error]
+          message:
+            type: string
+            description: Error message
+          timestamp:
+            type: string
+            format: date-time
+            description: ISO-8601 timestamp

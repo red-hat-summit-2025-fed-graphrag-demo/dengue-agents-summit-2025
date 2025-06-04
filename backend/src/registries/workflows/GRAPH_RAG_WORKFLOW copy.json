@@ -1,0 +1,35 @@
+{
+  "id": "GRAPH_RAG_WORKFLOW",
+  "name": "Graph RAG Workflow",
+  "description": "Knowledge graph querying workflow for dengue fever information",
+  "version": "1.0.0",
+  "steps": [
+    "injection_check_agent",
+    "policy_check_agent",
+    "rag_user_query_rewriter_agent",
+    "simple_query_writer_agent",
+    {
+      "loop": {
+        "condition_key": "result_count",
+        "condition_value": 0,
+        "max_iterations": 2,
+        "steps": [
+          "graph_query_executor_agent",
+          "graph_result_assessor_agent"
+        ],
+        "fallback_agent": "simple_query_writer_agent",
+        "fallback_message": "Please try a different query pattern - the previous one returned no results."
+      }
+    },
+    "dengue_data_visualization_agent",
+    "response_generator_agent",
+    "rag_output_combiner_agent",
+    "content_compliance_agent"
+  ],
+  "metadata": {
+    "created_at": "2025-04-30",
+    "updated_at": "2025-05-02",
+    "author": "Dengue Project Team",
+    "notes": "Workflow for knowledge graph-based question answering with simplified query generation and results-based rewriting"
+  }
+}

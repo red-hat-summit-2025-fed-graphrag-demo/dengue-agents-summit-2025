@@ -1,0 +1,308 @@
+[
+  {
+    "agent_id": "safety_injection",
+    "agent_type": "safety",
+    "name": "Injection Check Agent",
+    "description": "Detects prompt injection attempts using Granite Instruct.",
+    "class_path": "src.agent_system.safety_agent.InjectionCheckAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 512
+    },
+    "tools": [],
+    "shields": ["injection_detection"],
+    "enabled": true
+  },
+  {
+    "agent_id": "policy_check",
+    "agent_type": "safety",
+    "name": "Policy Check Agent",
+    "description": "Ensures content policy compliance using Granite Instruct.",
+    "class_path": "src.agent_system.safety_agent.PolicyCheckAgent",
+     "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 512
+    },
+    "tools": [],
+    "shields": ["content_policy"],
+    "enabled": true
+  },
+  {
+    "agent_id": "task_router",
+    "agent_type": "router",
+    "name": "Task Router",
+    "description": "Routes tasks to appropriate specialized agents using Granite Instruct.",
+    "class_path": "src.agent_system.task_router_agent.TaskRouterAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1024
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "code_assistant",
+    "agent_type": "assistant",
+    "name": "Code Assistant",
+    "description": "Specialized for programming using Mixtral (example).",
+    "class_path": "src.agent_system.code_assistant_agent.CodeAssistantAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "GRANITE",
+      "max_tokens": 2048,
+      "temperature": 0.7
+    },
+    "tools": ["code_interpreter", "documentation_search"],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "general_assistant",
+    "agent_type": "assistant",
+    "name": "General Assistant",
+    "description": "Handles general knowledge using Granite Instruct.",
+    "class_path": "src.agent_system.general_assistant_agent.GeneralAssistantAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1024
+    },
+    "tools": ["web_search", "calculator"],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "dengue_rag_agent",
+    "agent_type": "assistant",
+    "name": "Dengue RAG Assistant (Placeholder)",
+    "description": "Handles dengue questions using RAG (Placeholder).",
+    "class_path": "src.agent_system.general_assistant_agent.GeneralAssistantAgent", 
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1024
+    },
+    "tools": ["web_search"], 
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "medical_rag_agent",
+    "agent_type": "assistant",
+    "name": "Medical RAG Assistant (Placeholder)",
+    "description": "Handles general medical questions using RAG (Placeholder).",
+    "class_path": "src.agent_system.general_assistant_agent.GeneralAssistantAgent", 
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1024
+    },
+    "tools": ["web_search"], 
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "rag_coordinator_agent",
+    "agent_type": "coordinator", 
+    "name": "Dengue RAG Coordinator",
+    "description": "Coordinates the Dengue RAG workflow, deciding between graph and vector DB.",
+    "class_path": "src.agent_system.rag_coordinator_agent.CoordinatorAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 512
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "graph_db_agent",
+    "agent_type": "retriever", 
+    "name": "Dengue GraphDB Retriever",
+    "description": "Retrieves information from the Dengue Knowledge Graph API.",
+    "class_path": "src.agent_system.knowledge_graph_agent.GraphDBAgent",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1024 
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "graph_query_generator",
+    "agent_type": "worker", 
+    "name": "Dengue Graph Query Generator",
+    "description": "Generates Cypher queries for the Dengue Knowledge Graph based on user questions.",
+    "class_path": "src.agent_system.knowledge_graph_agent.GraphQueryGeneratorAgent",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 512 
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "graph_query_executor_agent",
+    "agent_type": "worker",
+    "name": "Dengue Graph Query Executor",
+    "description": "Executes Cypher queries against the Dengue Knowledge Graph and retrieves results.",
+    "class_path": "src.agent_system.rag_system.retrieval.graph_query_executor_agent.GraphQueryExecutorAgent",
+    "model_config": {
+      "provider": "granite",
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "parameters": {
+        "temperature": 0.1,
+        "max_new_tokens": 1024
+      }
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "graph_result_assessor",
+    "agent_type": "worker", 
+    "name": "Dengue Graph Result Assessor",
+    "description": "Assesses the quality and relevance of results from the Dengue Knowledge Graph query.",
+    "class_path": "src.agent_system.graph_result_assessor_agent.GraphResultAssessorAgent",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 256 
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "template_selector",
+    "agent_type": "worker", 
+    "name": "Response Template Selector",
+    "description": "Selects the appropriate template for the user query based on graph query results and markers using criteria-based matching.",
+    "class_path": "src.agent_system.template_criteria_selector.TemplateCriteriaSelector",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 256 
+    },
+    "templates_dir": "config/templates",
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "response_generator",
+    "agent_type": "worker", 
+    "name": "Response Generator",
+    "description": "Generates a response using the selected template or free-form generation guidelines.",
+    "class_path": "src.agent_system.response_generator_agent.ResponseGeneratorAgent",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1536 
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "vector_db_agent",
+    "agent_type": "retriever", 
+    "name": "Dengue VectorDB Retriever",
+    "description": "Retrieves information from the Dengue Vector Database (Weaviate).",
+    "class_path": "src.agent_system.vector_store_agent.VectorDBAgent",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1024
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": false
+  },
+  {
+    "agent_id": "query_merger_agent",
+    "agent_type": "merger", 
+    "name": "Dengue RAG Query Merger",
+    "description": "Merges results from GraphDB and VectorDB retrievers.",
+    "class_path": "src.agent_system.query_merger_agent.QueryMergerAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1536
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "response_synthesizer",
+    "agent_type": "synthesizer", 
+    "name": "Dengue Response Synthesizer",
+    "description": "Synthesizes a final response based on gathered information from retrievers or coordinators.",
+    "model_config": { 
+      "model_id": "granite-3-1-8b-instruct-w4a16", 
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 1536 
+    },
+    "tools": [],
+    "shields": [],
+    "enabled": true
+  },
+  {
+    "agent_id": "content_compliance",
+    "agent_type": "compliance",
+    "name": "Content Compliance Agent",
+    "description": "Final checkpoint that ensures all generated content complies with privacy and safety standards before delivery to user.",
+    "class_path": "src.agent_system.content_compliance_agent.ContentComplianceAgent",
+    "model_config": {
+      "model_id": "granite-3-1-8b-instruct-w4a16",
+      "provider": "granite",
+      "api_key_env_var": "GRANITE_INSTRUCT_API_KEY",
+      "endpoint_env_var": "GRANITE_INSTRUCT_URL",
+      "max_tokens": 512
+    },
+    "tools": [],
+    "shields": ["pii_phi_detection", "abusive_language_detection"],
+    "enabled": true
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "id": "{{ WORKFLOW_ID }}",
+  "name": "{{ Workflow Name }}",
+  "description": "{{ Workflow description }}",
+  "version": "1.0.0",
+  "steps": [
+    "{{ first_agent_id }}",
+    "{{ second_agent_id }}"
+  ],
+  "metadata": {
+    "created_at": "YYYY-MM-DD",
+    "updated_at": "YYYY-MM-DD",
+    "author": "Dengue Project Team",
+    "notes": "{{ Additional notes about this workflow }}"
+  }
+}

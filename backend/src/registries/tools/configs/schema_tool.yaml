@@ -1,0 +1,78 @@
+# Schema Tool Configuration
+id: "schema_tool"
+name: "Schema Tool"
+description: |
+  The Schema Tool allows agents to retrieve schema information from the Neo4j knowledge graph.
+  It provides details about node labels, relationship types, and property keys.
+version: "1.0.0"
+enabled: true
+
+# Tool Classification
+tool_type: "database"
+
+# Access Control
+requires_permissions:
+  - "database_read"
+
+allowed_agents:
+  - "rag_query_writer_agent"
+  # Add more agent IDs as needed
+
+# Tool Capabilities
+capabilities:
+  - "Retrieve basic schema information"
+  - "Get detailed schema including properties"
+  - "Retrieve sample data for nodes and relationships"
+
+# Tool Parameters
+parameters:
+  entity_type:
+    type: "string"
+    description: "Type of entity to retrieve schema for (e.g., 'node', 'relationship', 'all')"
+    required: false
+    default: "all"
+  label:
+    type: "string"
+    description: "Specific node label or relationship type to filter by"
+    required: false
+  include_samples:
+    type: "boolean"
+    description: "Whether to include sample data"
+    required: false
+    default: false
+
+# Tool Response
+response_format:
+  type: "object"
+  properties:
+    nodes:
+      type: "array"
+      description: "List of node types with their properties"
+    relationships:
+      type: "array"
+      description: "List of relationship types with their properties"
+    samples:
+      type: "object"
+      description: "Sample data if requested"
+    status:
+      type: "string"
+      enum: ["success", "error"]
+      description: "Status of operation"
+
+# Usage Examples
+usage_examples:
+  - description: "Get basic schema"
+    code: |
+      schema = await schema_tool.get_schema()
+      
+  - description: "Get detailed schema"
+    code: |
+      detailed_schema = await schema_tool.get_detailed_schema()
+      
+  - description: "Get properties for a specific node label"
+    code: |
+      disease_props = await schema_tool.get_node_properties("Disease")
+
+# Additional Configuration
+timeout_seconds: 20
+rate_limit: 30

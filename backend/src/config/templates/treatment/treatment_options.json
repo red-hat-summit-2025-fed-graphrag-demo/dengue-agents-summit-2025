@@ -1,0 +1,12 @@
+{
+  "template_id": "treatment_options",
+  "name": "Dengue Treatment Options",
+  "description": "Template for queries about dengue treatment approaches",
+  "query_type": "treatment",
+  "applicable_markers": ["[TREATMENT_QUERY]", "[VISUALIZATION_READY]"],
+  "query_patterns": ["treatment", "how to treat", "medication for dengue", "manage dengue", "cure for dengue"],
+  "required_data_fields": ["last_graph_results"],
+  "template_markers": ["[USE_TREATMENT_TEMPLATE]"],
+  "template_content": "# Dengue Fever Treatment Options\n\n{% if visualization_data %}\n[VISUALIZATION: Graph showing treatment approaches for Dengue Fever]\n{% endif %}\n\nDengue fever treatment is primarily supportive, focused on managing symptoms and preventing complications.\n\n## Available Treatments\n\n{% for item in last_graph_results.data %}\n### {{ item.treatment }}\n{% if item.description %}{{ item.description }}{% else %}A treatment approach for dengue fever.{% endif %}\n{% endfor %}\n\n## General Management Approaches\n\n- **Hydration**: Adequate fluid intake is crucial to prevent dehydration\n- **Fever Control**: Antipyretics like acetaminophen (paracetamol) for fever; avoid aspirin and NSAIDs due to bleeding risk\n- **Monitoring**: Regular monitoring for warning signs of severe dengue\n- **Rest**: Patients should get plenty of rest to support recovery\n\n{% if last_assessment.severe_cases %}\n## For Severe Cases\n{% for approach in last_assessment.severe_cases %}\n- {{ approach }}\n{% endfor %}\n{% endif %}\n\n{% if markers and '[CITATION_MISSING]' in markers %}\n*Note: Specific scientific citations for this information are not available in our knowledge base.*\n{% endif %}\n\n{% if last_assessment.citations %}\n## Sources\n{% for citation in last_assessment.citations %}\n- {{ citation.authors }} ({{ citation.year }}). {{ citation.title }}. *{{ citation.journal }}*\n{% endfor %}\n{% endif %}",
+  "fallback_guidelines": "Describe available treatment options for dengue fever, emphasizing that treatment is primarily supportive. Distinguish between management approaches for mild dengue and severe dengue."
+}

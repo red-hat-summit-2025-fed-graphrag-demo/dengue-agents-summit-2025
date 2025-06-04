@@ -1,0 +1,6 @@
+{
+  "id": "fallback_response",
+  "description": "General information about dengue fever, used as a fallback.",
+  "required_data_keys": [],
+  "template_content": "# Dengue Fever Information\n\nDengue fever is a mosquito-borne viral infection common in tropical and subtropical areas. It can cause a range of symptoms, from mild flu-like illness to severe complications.\n\n## General Information\n- **Transmission:** Spread through the bite of infected Aedes mosquitoes.\n- **Prevention:** Focuses on mosquito control and avoiding bites (using repellent, wearing protective clothing, eliminating breeding sites).\n- **Treatment:** There is no specific antiviral treatment. Care focuses on relieving symptoms, managing fever, staying hydrated, and monitoring for warning signs of severe dengue.\n\n*Disclaimer: This information is for general knowledge and does not substitute professional medical advice. Consult a healthcare provider for diagnosis and treatment.*\n\n{% if retrieved_citations %}\n### Sources\n{% for citation in retrieved_citations %}\n- [{{ citation.title }}]({{ citation.url }}) ({{ citation.source_name }})\n{% endfor %}\n{% endif %}"
+}

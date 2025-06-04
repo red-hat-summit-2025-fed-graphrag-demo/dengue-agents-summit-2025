@@ -1,0 +1,6 @@
+{
+  "steps": [
+    "unauth_test_agent",
+    "auth_test_agent"
+  ]
+}

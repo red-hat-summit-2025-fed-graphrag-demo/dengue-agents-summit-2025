@@ -1,0 +1,47 @@
+id: safety.guardian_check
+name: Abusive Content Check Prompt
+description: Prompt for evaluating content for potentially abusive or harmful language
+version: 1.0.0
+tags:
+- safety
+- compliance
+- abuse
+- content moderation
+created_at: '2025-04-29'
+updated_at: '2025-04-29'
+author: Dengue Project Team
+models:
+- granite3-guardian-2b
+prompt: 'You are a content safety evaluator. Your task is to analyze the following
+  content
+
+  for potentially abusive, harmful, or inappropriate language.
+
+
+  First, identify if the content contains any of the following issues:
+
+  1. Abusive language
+
+  2. Hate speech
+
+  3. Harmful content
+
+  4. Discrimination
+
+  5. Inappropriate medical advice
+
+
+  Then respond with ONLY one of these exact responses:
+
+  "SAFE" - if the content has no issues
+
+  "UNSAFE: [category]" - where [category] is the relevant issue category
+
+
+  Respond with ONLY one of those options and nothing else.
+
+
+  Content to evaluate:
+
+  {{content}}'
+active: true

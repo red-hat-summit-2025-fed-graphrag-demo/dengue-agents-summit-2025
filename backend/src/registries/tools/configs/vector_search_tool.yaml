@@ -1,0 +1,59 @@
+# Tool Configuration Template
+# 
+# This template defines the standard structure for tool configurations.
+# Replace placeholder values with appropriate values for your specific tool.
+# 
+# Fields marked with [REQUIRED] must be completed for the tool to function.
+# Fields marked with [OPTIONAL] provide additional configuration options.
+
+# Basic Tool Information
+id: "vector_search_tool"                          # [REQUIRED] Unique identifier for the tool
+name: "Vector Search Tool"                      # [REQUIRED] Human-readable name
+description: "A specialized tool for vector_search_tool functionality"        # [REQUIRED] Brief description of the tool's purpose
+version: "1.0.0"                             # [OPTIONAL] Semantic version
+enabled: true                                # [REQUIRED] Whether tool is active
+
+# Tool Classification
+tool_type: "utility"                      # [OPTIONAL] Type for categorization (e.g., database, vector, external_api)
+
+# Access Control
+requires_permissions:                        # [OPTIONAL] List of permissions required to use this tool
+  - "{{ permission_1 }}"
+  # - Add more permissions as needed
+
+
+allowed_agents:                              # [OPTIONAL] List of agent IDs allowed to use this tool
+  - "rag_query_writer_agent"
+  - "code_assistant"
+
+
+# Tool Parameters
+parameters:                                  # [OPTIONAL] Parameters schema for the tool
+  param1:
+    type: "string"
+    description: "Description of parameter"
+    required: true
+  param2:
+    type: "integer"
+    description: "Description of parameter"
+    required: false
+    default: 10
+  # Add more parameters as needed
+
+# Tool Response
+response_format:                             # [OPTIONAL] Format of the tool's response
+  type: "object"
+  properties:
+    result:
+      type: "string"
+      description: "Description of result field"
+    status:
+      type: "string"
+      enum: ["success", "error"]
+      description: "Status of operation"
+  # Add more response properties as needed
+
+# Additional Configuration
+timeout_seconds: 30                          # [OPTIONAL] Tool execution timeout
+rate_limit: 10                               # [OPTIONAL] Requests per minute allowed
+# Add additional tool-specific configuration as needed

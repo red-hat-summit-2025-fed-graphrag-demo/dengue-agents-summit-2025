@@ -1,0 +1,13 @@
+{
+  "name": "Fibonacci Function",
+  "input": "Write a Python function to calculate the first 10 Fibonacci numbers",
+  "validation": {
+    "type": "code_validation",
+    "criteria": {
+      "language": "python",
+      "must_contain": ["def", "fibonacci", "return"],
+      "expected_patterns": ["\\bdef\\s+\\w+\\s*\\(", "for\\s+\\w+\\s+in\\s+range|while"],
+      "syntax_check": true
+    }
+  }
+}

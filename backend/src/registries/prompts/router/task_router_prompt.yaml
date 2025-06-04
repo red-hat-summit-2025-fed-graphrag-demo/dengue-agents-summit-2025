@@ -1,0 +1,19 @@
+id: router.task_router
+name: Task Router Agent Prompt
+description: Determines which specialized agent should handle a user query
+version: 1.0.0
+tags:
+- router
+- task
+- agent selection
+created_at: '2025-04-29'
+updated_at: '2025-04-29'
+author: Dengue Project Team
+models:
+- granite-3-1-8b-instruct-w4a16
+prompt: 'You are a task routing agent. Your task is to determine which specialized
+  agent should handle a given user query.
+
+
+  User Query: {{query}}'
+active: true

@@ -1,0 +1,15 @@
+{
+  "id": "TEST_ACTIVE_WORKFLOW",
+  "name": "Active Test Workflow",
+  "description": "Simple workflow for active test workflow",
+  "version": "1.0.0",
+  "steps": [
+    "graphrag_code_general_agent"
+  ],
+  "metadata": {
+    "created_at": "2025-04-30",
+    "updated_at": "2025-05-04",
+    "author": "Dengue Project Team",
+    "notes": "Standard workflow with 1 agent(s) for testing router agent"
+  }
+}

@@ -1,0 +1,60 @@
+# Agent Configuration Template
+# 
+# This template defines the standard structure for agent configurations.
+# Replace placeholder values with appropriate values for your specific agent.
+# 
+# Fields marked with [REQUIRED] must be completed for the agent to function.
+# Fields marked with [OPTIONAL] provide additional configuration options.
+
+# Basic Agent Information
+id: "graphrag_code_general_agent"                         # [REQUIRED] Unique identifier for the agent
+name: "Graphrag Code General Agent"                     # [REQUIRED] Human-readable name
+description: "A specialized agent for graphrag code general functionality"       # [REQUIRED] Brief description of the agent's purpose
+version: "1.0.0"                             # [OPTIONAL] Semantic version
+enabled: true                                # [REQUIRED] Whether agent is active
+
+# Agent Classification
+agent_type: "routing"               # [REQUIRED] Type for categorization (e.g., assistant, safety, rag)
+
+# Agent Capabilities
+capabilities:                                # [OPTIONAL] List of agent capabilities
+  - "capability_1"                           # Add specific capabilities for your agent
+  - "capability_2"
+  # - Add more capabilities as needed
+
+# LLM Configuration
+model_config:                                # [REQUIRED] Model settings
+  provider: "granite"                        # [REQUIRED] Model provider (e.g., granite, openai)
+  model_type: "instruct"             # [REQUIRED] Model type (instruct or guardian)
+  model_name: "granite-3-1-8b-instruct-w4a16"             # [REQUIRED] Specific model to use
+  max_tokens: 1024                           # [REQUIRED] Response token limit
+  temperature: 0.7                           # [REQUIRED] Temperature parameter (0.0-1.0)
+  # Add additional model parameters as needed
+
+# Prompts Configuration
+prompts:                                     # [REQUIRED] Prompt definitions
+  system:                                    # [REQUIRED] Primary system prompt
+    id: "router.task_classifier"                    # [REQUIRED] ID of prompt in prompt registry
+    description: "Primary system prompt"      # [OPTIONAL] Description of prompt purpose
+  # Add additional context-specific prompts as needed
+  # example:
+  #   id: "prompt.additional_id"
+  #   description: "Purpose of this additional prompt"
+
+# Tools Configuration
+tools:                                       # [OPTIONAL] Tools available to the agent
+  # Example tool:
+  # - id: "tool_id"
+  #   parameters:
+  #     param1: value1
+  #     param2: value2
+
+# Custom Workflow (used for complex agents)
+# workflow:                                  # [OPTIONAL] Custom processing workflow
+#   input: "input_field_name"                # Define input field
+#   steps:                                   # Define sequential processing steps
+#     - name: "step_name"
+#       prompt_id: "prompt.id"
+#       tool_id: "tool_id"                   # Optional tool to use
+#       output: "output_field_name"
+#   output: "final_output_field"             # Define output field

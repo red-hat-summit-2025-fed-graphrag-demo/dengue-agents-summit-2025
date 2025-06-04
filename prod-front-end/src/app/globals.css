@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  --foreground: #000000; /* black */
+  --background: #ffffff; /* white */
+  --primary: #003366; /* blue-70 */
+  --primary-light: #0066cc; /* blue-50 */
+  --accent: #f5921b; /* orange-50 */
+  --accent-light: #fccb8f; /* orange-30 */
+  --warning: #ee0000; /* red-50 */
+  --warning-dark: #5f0000; /* red-70 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Make placeholder text darker and more visible */
+::placeholder {
+  color: var(--primary) !important;
+  opacity: 0.7 !important;
+}
+
+/* Additional styling for markdown tables */
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  display: block;
+}
+
+.markdown-content table thead {
+  background-color: var(--primary-light);
+  color: white;
+  border-bottom: 2px solid var(--primary);
+}
+
+.markdown-content table th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+.markdown-content table td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--primary-light);
+  vertical-align: top;
+}
+
+.markdown-content table tr:nth-child(even) {
+  background-color: var(--accent-light);
+}
+
+.markdown-content table tr:hover {
+  background-color: var(--accent-light);
+}
+
+/* Additional styling for table wrapping to prevent overflow */
+.markdown-content .table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
